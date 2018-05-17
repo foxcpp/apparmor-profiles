@@ -1,0 +1,32 @@
+# WeeChat AppArmor Profile
+# vim:syntax=apparmor:ts=2:sw=2:et
+
+# Copyright © Max Mazurov (fox.cpp) 2018
+# Published under terms of the MIT license.
+# https://opensource.org/licenses/MIT
+
+#include <tunables/global>
+
+/usr/bin/weechat {
+  #include <abstractions/base>
+  #include <abstractions/ssl_certs>
+  #include <abstractions/foxcpp/resolver>
+  #include <abstractions/foxcpp/ncurses>
+  #include <abstractions/foxcpp/ssl>
+  #include <abstractions/foxcpp/python>
+
+  # Silence audit flood.
+  deny /etc/passwd r,
+  deny /usr/local/lib/python2.7/dist-packages/ r,
+  deny /etc/python2.7/sitecustomize.py r,
+  deny /proc/*/statm r,
+
+  /usr/lib{/x86_64-linux-gnu/,/}weechat/plugins/*.so rm,
+
+  # Default configuration path.
+  owner @{HOME}/.weechat/** rw,
+  owner @{HOME}/.weechat/weechat.log rwk,
+
+  #include <local/usr.bin.weechat>
+}
+

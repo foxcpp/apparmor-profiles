@@ -1,0 +1,19 @@
+#include <local/globals>
+
+# Uncomment to allow R/W access to Downloads directory.
+# #include <abstractions/user-download>
+
+# Uncomment to allow R/W access to home.
+# #include <abstractions/user-write>
+
+# Uncomment to deny installation of addons.
+# deny @{HOME}/.mozilla/thunderbird/*/extensions/** rwmkl,
+
+# Allow to run GnuPG (Enigmail addon). 
+# /usr/bin/gpg rPUx,
+# /usr/bin/gpg2 rPUx,
+
+# You may want to allow access to "sound" themes.
+# #include <abstractions/audio>
+# #include <abstractions/foxcpp/pulse>
+# /usr/share/sounds/*/freedesktop/index.theme r,

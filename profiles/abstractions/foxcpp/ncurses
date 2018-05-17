@@ -1,0 +1,4 @@
+/dev/tty{0,63} rw,
+/dev/tty{0,63} rw,
+/dev/pts/* rw,
+/usr/share/terminfo/*/* r,

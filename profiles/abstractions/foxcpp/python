@@ -1,0 +1,2 @@
+/usr/lib/python*/lib-dynload/*.so rm,
+/usr/lib/python*/**.py r,

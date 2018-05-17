@@ -1,0 +1,11 @@
+# Applied to all profiles
+
+# owner @{HOME}/Public/ r,
+# owner @{HOME}/Public/** r,
+
+# audit deny @{HOME}/Private/ r,
+# audit deny @{HOME}/Private/** r,
+
+# Generally a good idea, otherwise you can get broken file dialogs.
+owner @{HOME}/ r,
+

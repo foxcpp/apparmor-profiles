@@ -1,0 +1,55 @@
+# Thunderbird AppArmor profile
+# vim:syntax=apparmor:ts=2:sw=2:et
+
+# Copyright © Max Mazurov (fox.cpp) 2018
+# Published under terms of the MIT license.
+# https://opensource.org/licenses/MIT
+
+#include <tunables/global>
+
+/usr/lib/thunderbird/thunderbird{,-bin} {
+  #include <abstractions/base>
+  #include <abstractions/gnome>
+  #include <abstractions/ssl_certs>
+  #include <abstractions/foxcpp/resolver>
+  #include <abstractions/foxcpp/gnome>
+  #include <abstractions/foxcpp/mime>
+  #include <abstractions/foxcpp/ssl>
+
+  # Silence audit flood. Thunderbird works fine without access to these files.
+  deny /{,var/}run/user/*/dconf/user mrwlk,
+  deny /{,var/}run/user/*/dconf/ mrwlk,
+  deny /etc/dconf/** mrwlk,
+  deny @{HOME}/.config/dconf/user mrwlk,
+  deny /dev/ r,
+  deny /dev/tty r,
+  deny /dev/dri/ r,
+  deny /sys/devices/pci**/{config,vendor,device} r,
+  deny /sys/devices/system/cpu/** r,
+  deny /proc/*/{mountinfo,net/route,fd/,task/*/stat,stat} r,
+  deny /etc/passwd r,
+  deny /etc/fstab r,
+  deny /usr/bin/lsb_release x,
+  deny /usr/lib/thunderbird/fonts/.uuid.TMP-* rw,
+  deny /etc/machine-id r,
+  deny @{HOME}/.cache/event-sound-cache.tdb.arch.* rw,
+
+  /usr/share/hunspell/ r,
+  /usr/share/hunspell/*.{aff,dic} r,
+
+  deny owner @{HOME}/.mozilla/{extensions,plugins}/** mrwlk,
+
+  owner @{HOME}/.thunderbird/** rwk,
+  owner /tmp/thunderbird_*/** rw,
+  owner @{HOME}/.cache/thunderbird/** rwk,
+
+  /usr/{lib,share}/thunderbird/** r,
+
+  # Debian-specific.
+  /etc/thunderbird/pref/ r,
+  /etc/thunderbird/pref/thunderbird.js r,
+
+  /usr/lib/thunderbird/thunderbird{,-bin} mrix,
+
+  #include <local/usr.lib.thunderbird.thunderbird>
+}

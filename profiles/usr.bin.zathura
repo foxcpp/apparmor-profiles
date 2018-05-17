@@ -1,0 +1,29 @@
+# Zathura AppArmor Profile
+# vim:syntax=apparmor:ts=2:sw=2:et
+
+# Copyright © Max Mazurov (fox.cpp) 2018
+# Published under terms of the MIT license.
+# https://opensource.org/licenses/MIT
+
+#include <tunables/global>
+
+/usr/bin/zathura {
+  #include <abstractions/base>
+  #include <abstractions/X>
+  #include <abstractions/freedesktop.org>
+  #include <abstractions/fonts>
+  #include <abstractions/foxcpp/poppler>
+  #include <abstractions/foxcpp/gnome>
+
+  /usr/share/file/misc/magic.mgc r,
+
+  # Configuration file.
+  /etc/zathurarc r,
+  owner @{HOME}/.config/zathura/** r,
+
+  # Bookmarks and history.
+  owner @{HOME}/.local/share/zathura/** rw,
+
+  #include <local/usr.bin.zathura>
+}
+

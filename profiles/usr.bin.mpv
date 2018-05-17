@@ -1,0 +1,24 @@
+# mpv AppArmor Profile
+# vim:syntax=apparmor:ts=2:sw=2:et
+
+# Copyright © Max Mazurov (fox.cpp) 2018
+# Published under the terms of the MIT license.
+# https://opensource.org/licenses/MIT
+
+#include <tunables/global>
+
+/usr/bin/mpv {
+  #include <abstractions/base>
+  #include <abstractions/X>
+  #include <abstractions/fonts>
+  #include <abstractions/audio>
+  #include <abstractions/foxcpp/alsa>
+
+  owner @{HOME}/.config/mpv/** r,
+  /etc/mpv/** r,
+
+  /usr/bin/mpv rmix,
+
+  #include <local/usr.bin.mpv>
+}
+

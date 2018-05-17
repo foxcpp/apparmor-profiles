@@ -1,0 +1,37 @@
+# Tumbler AppArmor Profile
+# vim:syntax=apparmor:ts=2:sw=2:et
+
+# Copyright © Max Mazurov (fox.cpp) 2018
+# Published under terms of the MIT license.
+# https://opensource.org/licenses/MIT
+
+#include <tunables/global>
+
+/usr/lib/{/,x86_64-linux-gnu/}tumbler-1/tumblerd {
+  #include <abstractions/base>
+  #include <abstractions/foxcpp/poppler>
+  #include <abstractions/foxcpp/mime>
+
+  /etc/xdg/tumbler/tumbler.rc r,
+
+  /usr/share/thumbnailers/ r,
+  /usr/share/thumbnailers/*.thumbnailer r,
+  /usr/lib/{/,x86_64-linux-gnu/}tumbler-1/plugins/**.so mr,
+
+  owner @{HOME}/.cache/thumbnails/ rw,
+  owner @{HOME}/.cache/thumbnails/normal/ rw,
+  owner @{HOME}/.cache/thumbnails/normal/*.{png,jpg} rw,
+
+  deny /dev/ r,
+  deny /etc/fstab r,
+  deny @{HOME}/.cache/gstreamer-1.0/registry.* rw,
+  deny /usr/lib/{x86_64-linux-gnu/,/}gstreamer1.0/gstreamer-1.0/gst-plugin-scanner rwxkl,
+  deny /proc/*/*/ r,
+  deny /proc/*/* r,
+  deny /sys/devices/system/node/ r,
+
+  /usr/lib/{/,x86_64-linux-gnu/}tumbler-1/tumblerd mr,
+
+  #include <local/usr.lib.tumbler-1.tumblerd>
+}
+

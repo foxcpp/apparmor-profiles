@@ -1,0 +1,13 @@
+/etc/group r,
+
+/etc/pulse/ r,
+/etc/pulse/** r,
+
+/usr/share/pulse/ r,
+/usr/share/pulse/** r,
+
+owner @{HOME}/.config/pulse/ r,
+owner @{HOME}/.config/pulse/** r,
+
+/etc/machine-id r,
+

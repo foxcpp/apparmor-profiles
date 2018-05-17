@@ -1,0 +1,8 @@
+owner @{HOME}/.local/share/mime/mime.cache r,
+owner @{HOME}/.config/mimeapps.list r,
+
+/etc/mailcap r,
+/etc/mime.types r,
+/usr/share/mime/mime.cache r,
+/usr/share/gnome/applications/mimeinfo.cache r,
+/etc/xdg/*-mimeapps.list r,

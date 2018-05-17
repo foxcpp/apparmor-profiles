@@ -1,0 +1,64 @@
+# Firefox AppArmor Profile
+# vim:syntax=apparmor:ts=2:sw=2:et
+
+# Copyright © Max Mazurov (fox.cpp) 2018
+# Published under terms of the MIT license.
+# https://opensource.org/licenses/MIT
+
+#include <tunables/global>
+
+/usr/lib/firefox{,-esr}/firefox{,-esr} {
+  #include <abstractions/base>
+  #include <abstractions/gnome>
+  #include <abstractions/ssl_certs>
+  #include <abstractions/foxcpp/resolver>
+  #include <abstractions/foxcpp/mime>
+  #include <abstractions/foxcpp/ssl>
+
+  # Silence audit flood. Firefox works fine without access to these files.
+  deny /{,var/}run/user/*/dconf/user mrwlk,
+  deny /{,var/}run/user/*/dconf/ mrwlk,
+  deny /etc/dconf/** mrwlk,
+  deny @{HOME}/.config/dconf/user mrwlk,
+  deny /dev/ r,
+  deny /dev/tty r,
+  deny /dev/dri/ r,
+  deny /sys/devices/pci**/{config,vendor,device} r,
+  deny /sys/devices/system/cpu/** r,
+  deny /sys/devices/system/node/ r,
+  deny /proc/*/{mountinfo,net/route,fd/,task/*/stat,stat} r,
+  deny /etc/passwd r,
+  deny /usr/bin/lsb_release rx,
+  deny /usr/share/mozilla/extensions/*/ r,
+  deny /usr/lib/firefox/browser/extensions/*.xpi r,
+  deny /usr/lib/firefox/fonts/.uuid.TMP-* w,
+  deny /usr/lib/firefox/pingsender rx,
+  deny /dev/dri/card* r,
+  deny ptrace,
+
+  /usr/share/hunspell/ r,
+  /usr/share/hunspell/*.{dic,aff} r,
+
+  owner @{HOME}/.mozilla/firefox/** rwk,
+
+  owner @{HOME}/.cache/ r,
+  owner @{HOME}/.cache/mozilla/ r,
+  owner @{HOME}/.cache/mozilla/firefox/** rwk,
+
+  audit deny /dev/shm/org.chromium.Chromium.* rw,
+  owner /dev/shm/org.chromium.* rwmk,
+
+  owner /tmp/mozilla_*/** rw,
+
+  /usr/{lib,share}/firefox/** r,
+
+  # Debian-specific.
+  /etc/firefox/ r,
+  /etc/firefox/firefox.js r,
+
+  /usr/lib/firefox/plugin-container mix,
+  /usr/lib/firefox{,-esr}/firefox{,-esr} mix,
+
+  #include <local/usr.lib.firefox.firefox>
+}
+

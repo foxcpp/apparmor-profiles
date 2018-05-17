@@ -1,0 +1,5 @@
+/run/firejail/mnt/{fslogger,group,passwd,protocol,seccomp,seccomp.*,utmp,ld.so.preload} r,
+/run/firejail/mnt/devlog rw,
+/run/firejail/mnt/pulse/client.conf r,
+audit deny /run/firejail/mnt/orig-*/ rwlkm,
+audit deny /run/firejail/mnt/orig-*/** rwlkm,

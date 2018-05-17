@@ -1,0 +1,24 @@
+#include <local/globals>
+
+# Garbage in Downloads can contain malicious files.
+deny @{HOME}/Downloads/** r,
+
+owner @{HOME}/Pictures/**.jpg r,
+owner @{HOME}/Pictures/**.png r,
+owner @{HOME}/Pictures/**.jpeg r,
+owner @{HOME}/Documents/**.pdf r,
+owner @{HOME}/Documents/**.djvu r,
+owner @{HOME}/Documents/**.odf r,
+
+# Allow and log to all images, PDF's and ODF's on system.
+# audit owner /**.jpg r,
+# audit owner /**.png r,
+# audit owner /**.jpeg r,
+# audit owner /**.pdf r,
+# audit owner /**.djvu r,
+# audit owner /**.odf r,
+# ALERT: Don't forget to blacklist "private" directories.
+
+# Some thumbnailer plugins are external binaries.
+# /usr/bin/gdk-pixbuf-thumbnailer rmix,
+

@@ -1,0 +1,33 @@
+#include <local/globals>
+
+# Uncomment to allow R/W access to Downloads directory.
+# #include <abstractions/user-download>
+
+# Uncomment to allow audio through ALSA and PulseAudio.
+# #include <abstractions/audio>
+
+# Uncomment this if PulseAudio doesn't works.
+# #include <abstractions/foxcpp/pulse>
+
+# Uncomment to allow R/W access to home.
+# #include <abstractions/user-write>
+
+# Uncomment to disallow installation of addons.
+# deny @{HOME}/.mozilla/firefox/*/extensions/** rwmkl,
+
+# Uncomment to enable NPAPI support.
+# owner @{HOME}/.mozilla/{plugins,extensions}/** rwmkl,
+
+# Uncomment if you use firejail.
+# #include <abstractions/foxcpp/firejail>
+
+# Disable various mostly useless functions,
+# deny /usr/lib/firefox/browser/features/activity-stream@mozilla.org.xpi r,
+# deny /usr/lib/firefox/browser/features/aushelper@mozilla.org.xpi r,
+# deny /usr/lib/firefox/browser/features/firefox@getpocket.com.xpi r,
+# deny /usr/lib/firefox/browser/features/followonsearch@mozilla.com.xpi r,
+# deny /usr/lib/firefox/browser/features/formautofill@mozilla.org.xpi r,
+# deny /usr/lib/firefox/browser/features/onboarding@mozilla.org.xpi r,
+# deny /usr/lib/firefox/browser/features/screenshots@mozilla.org.xpi r,
+# deny /usr/lib/firefox/browser/features/shield-recipe-client@mozilla.org.xpi r,
+# deny /usr/lib/firefox/browser/features/webcompat@mozilla.org.xpi r,

@@ -1,0 +1,6 @@
+#include <local/globals>
+
+# Allow to open any PDF/DJVU on system. 
+#/**.pdf r,
+#/**.djvu r,
+

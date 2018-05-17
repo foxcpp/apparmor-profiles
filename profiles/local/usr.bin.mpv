@@ -1,0 +1,51 @@
+#include <local/globals>
+
+# You can use these messy one-lines to get list of extensions for video/audio files:
+#  grep -v "^#" /etc/mime.types | grep "video/" | grep -Po '\t[ \w]+$' | sed 's/[\t ]/\n/g' | sed '/^$/d' | sort -u
+#  grep -v "^#" /etc/mime.types | grep "audio/" | grep -Po '\t[ \w]+$' | sed 's/[\t ]/\n/g' | sed '/^$/d' | sort -u
+
+# Few popular video formats.
+owner @{HOME}/{Videos,Downloads}/**.avi r,
+owner @{HOME}/{Videos,Downloads}/**.mp4 r,
+owner @{HOME}/{Videos,Downloads}/**.mkv r,
+owner @{HOME}/{Videos,Downloads}/**.m4v r,
+owner @{HOME}/{Videos,Downloads}/**.flv r,
+owner @{HOME}/{Videos,Downloads}/**.3gp r,
+owner @{HOME}/{Videos,Downloads}/**.webm r,
+owner @{HOME}/{Videos,Downloads}/**.mpg r,
+
+# Few popular audio formats.
+owner @{HOME}/{Videos,Downloads}/**.opus r,
+owner @{HOME}/{Videos,Downloads}/**.mp3 r,
+owner @{HOME}/{Videos,Downloads}/**.m4a r,
+owner @{HOME}/{Videos,Downloads}/**.wma r,
+owner @{HOME}/{Videos,Downloads}/**.wav r,
+owner @{HOME}/{Videos,Downloads}/**.flac r,
+owner @{HOME}/{Videos,Downloads}/**.amr r,
+owner @{HOME}/{Videos,Downloads}/**.ogg r,
+
+# Or if you want to go crazy...
+# audit /**.avi r,
+# audit /**.mp4 r,
+# audit /**.mkv r,
+# audit /**.m4v r,
+# audit /**.flv r,
+# audit /**.3gp r,
+# audit /**.webm r,
+# audit /**.mpg r,
+# audit /**.opus r,
+# audit /**.mp3 r,
+# audit /**.m4a r,
+# audit /**.wma r,
+# audit /**.wav r,
+# audit /**.flac r,
+# audit /**.amr r,
+# audit /**.ogg r,
+# NOTE: Make sure to disable access to "private" directories.
+
+# yt-dl hook.
+# ALERT: Can be used to bypass MAC restrictions without a dedicated profile.
+/usr/bin/youtube-dl Px,
+
+# Required to disable screenserver.
+/usr/bin/xdg-screensaver Px,
