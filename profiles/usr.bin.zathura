@@ -24,6 +24,9 @@
   # Bookmarks and history.
   owner @{HOME}/.local/share/zathura/** rw,
 
+  # Djvu support
+  /usr/share/djvu/** r,
+
   #include <local/usr.bin.zathura>
 }
 
