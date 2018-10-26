@@ -47,6 +47,7 @@
 
   audit deny /dev/shm/org.chromium.Chromium.* rw,
   owner /dev/shm/org.chromium.* rwmk,
+  owner /dev/shm/org.mozilla.ipc.* rwmk,
 
   owner /tmp/mozilla_*/** rw,
 
