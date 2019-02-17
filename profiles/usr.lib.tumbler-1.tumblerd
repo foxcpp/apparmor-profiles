@@ -1,7 +1,7 @@
 # Tumbler AppArmor Profile
 # vim:syntax=apparmor:ts=2:sw=2:et
 
-# Copyright © Max Mazurov (fox.cpp) 2018
+# Copyright © Max Mazurov (fox.cpp) 2018-2019
 # Published under terms of the MIT license.
 # https://opensource.org/licenses/MIT
 
