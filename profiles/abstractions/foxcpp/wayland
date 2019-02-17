@@ -1,3 +1,11 @@
-/etc/share/drirc.d/** r,
-/etc/share/drirc.d/ r,
+/usr/share/drirc.d/** r,
+/usr/share/drirc.d/ r,
 /dev/dri/ r,
+
+# Used by toolkits for font rendering on Wayland (?)
+deny /usr/share/fonts/encodings/large/.uuid.TMP-* rw,
+deny /usr/share/fonts/util/.uuid.TMP-* rw,
+
+# libglvnd
+/usr/share/glvnd/egl_vendor.d/ r,
+/usr/share/glvnd/egl_vendor.d/** r,

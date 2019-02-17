@@ -21,16 +21,19 @@
   # OpenSSL configuration (???).
   #include <abstractions/openssl>
   #include <abstractions/wayland>
+  #include <abstractions/foxcpp/wayland>
 
   # telegram-desktop tries to touch dconf, we don't want this.
   deny /etc/dconf/** rwmkl,
   deny /{,var/}run/user/*/dconf/user rwmkl,
   deny @{HOME}/.config/dconf/user rwmkl,
 
+  # Needed to setup Qt logging.
+  /dev/tty r,
+
   # Why tdesktop would want to touch this?
   deny @{sys}/devices/pci**/{device,subsystem_device,subsystem_vendor,uevent,vendor} r,
   deny @{PROC}/@{pid}/cmdline r,
-  deny /dev/tty r,
   deny /etc/machine-id r,
   deny /usr/bin/bash x,
   deny /etc/passwd r,
