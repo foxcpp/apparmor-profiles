@@ -1,0 +1,8 @@
+# Pull in custom global restrictions.
+#include <local/globals>
+
+# Uncomment to allow R/W access to Downloads directory.
+#  include <abstractions/user-download>
+
+# Uncomment to allow R/W access to user home (not recommended without good blacklist).
+#  include <abstractions/user-write>

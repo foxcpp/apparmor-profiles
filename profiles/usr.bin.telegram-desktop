@@ -1,0 +1,47 @@
+# Firefox AppArmor Profile
+# vim:syntax=apparmor:ts=2:sw=2:et
+
+# Copyright © Max Mazurov (fox.cpp) 2018-2019
+# Published under terms of the MIT license.
+# https://opensource.org/licenses/MIT
+#
+#include <tunables/global>
+#include <tunables/sys>
+
+/usr/bin/{{T,t}elegram,telegram-desktop} {
+  #include <abstractions/base>
+  #include <abstractions/fonts>
+  #include <abstractions/audio>
+  #include <abstractions/foxcpp/pulse>
+  # Qt configuration.
+  #include <abstractions/kde>
+  # GSettings (required for file selection dialog)
+  #include <abstractions/gnome>
+  #include <abstractions/foxcpp/gnome>
+  # OpenSSL configuration (???).
+  #include <abstractions/openssl>
+  #include <abstractions/wayland>
+
+  # telegram-desktop tries to touch dconf, we don't want this.
+  deny /etc/dconf/** rwmkl,
+  deny /{,var/}run/user/*/dconf/user rwmkl,
+  deny @{HOME}/.config/dconf/user rwmkl,
+
+  # Why tdesktop would want to touch this?
+  deny @{sys}/devices/pci**/{device,subsystem_device,subsystem_vendor,uevent,vendor} r,
+  deny @{PROC}/@{pid}/cmdline r,
+  deny /dev/tty r,
+  deny /etc/machine-id r,
+  deny /usr/bin/bash x,
+  deny /etc/passwd r,
+  deny ptrace,
+
+  # Configuration, profile, etc.
+  owner @{HOME}/.local/share r,
+  owner @{HOME}/.local/share/TelegramDesktop/ rwk,
+  owner @{HOME}/.local/share/TelegramDesktop/** rwkl,
+
+  @{profile_name} rmix,
+
+  #include <local/usr.bin.telegram-desktop>
+}
