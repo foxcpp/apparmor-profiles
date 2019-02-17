@@ -1,7 +1,7 @@
 # Firefox AppArmor Profile
 # vim:syntax=apparmor:ts=2:sw=2:et
 
-# Copyright © Max Mazurov (fox.cpp) 2018
+# Copyright © Max Mazurov (fox.cpp) 2018-2019
 # Published under terms of the MIT license.
 # https://opensource.org/licenses/MIT
 
@@ -14,6 +14,8 @@
   #include <abstractions/foxcpp/resolver>
   #include <abstractions/foxcpp/mime>
   #include <abstractions/foxcpp/ssl>
+  #include <abstractions/foxcpp/gnome>
+  #include <abstractions/foxcpp/wayland>
 
   # Silence audit flood. Firefox works fine without access to these files.
   deny /{,var/}run/user/*/dconf/user mrwlk,
@@ -35,6 +37,8 @@
   deny /usr/lib/firefox/pingsender rx,
   deny /dev/dri/card* r,
   deny ptrace,
+  deny /usr/share/fonts/encodings/large/.uuid* rw,
+  deny /usr/share/fonts/util/.uuid* rw,
 
   /usr/share/hunspell/ r,
   /usr/share/hunspell/*.{dic,aff} r,
@@ -48,6 +52,7 @@
   audit deny /dev/shm/org.chromium.Chromium.* rw,
   owner /dev/shm/org.chromium.* rwmk,
   owner /dev/shm/org.mozilla.ipc.* rwmk,
+  owner /run/user/*/mozilla-shared* rwmk,
 
   owner /tmp/mozilla_*/** rw,
 

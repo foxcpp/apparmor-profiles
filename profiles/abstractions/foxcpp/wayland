@@ -1,0 +1,3 @@
+/etc/share/drirc.d/** r,
+/etc/share/drirc.d/ r,
+/dev/dri/ r,
