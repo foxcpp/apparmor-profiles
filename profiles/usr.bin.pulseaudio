@@ -32,7 +32,8 @@
 
   unix (connect, receive, send) type=stream peer=(addr="@/tmp/.ICE-unix/[0-9]*"),
   ptrace (read,trace) peer=@{profile_name},
-  signal send set=term peer=/usr/bin/pulseaudio///usr/lib/pulse/gconf-helper,
+  signal send set=term peer=/usr/bin/pulseaudio///usr/lib/{pulseaudio/,}pulse/gconf-helper,
+  signal send set=term peer=/usr/bin/pulseaudio///usr/lib/{pulseaudio/,}pulse/gsettings-helper,
 
   /usr/bin/pulseaudio mixr,
 
@@ -80,7 +81,8 @@
   /usr/share/applications/* r,
   /usr/share/pulseaudio/** r,
   /usr/lib/pulse-[1-9]*.[0-9]/modules/*.so mr,
-  /usr/lib/pulseaudio/pulse/gconf-helper Cx,
+  /usr/lib/{pulseaudio/,}pulse/gconf-helper Cx,
+  /usr/lib/{pulseaudio/,}pulse/gsettings-helper Cx,
 
   owner /var/lib/gdm3/.config/pulse/ rw,
   owner /var/lib/gdm3/.config/pulse/* rw,
@@ -92,11 +94,10 @@
   owner /var/lib/lightdm/.config/pulse/ rw,
   owner /var/lib/lightdm/.config/pulse/* rw,
 
-  # are these needed?
-  /var/lib/pulse/ rw,
-  /var/lib/pulse/*-default-sink rw,
-  /var/lib/pulse/*-default-source rw,
-  /var/lib/pulse/*.tdb rw,
+  #/var/lib/pulse/ rw,
+  #/var/lib/pulse/*-default-sink rw,
+  #/var/lib/pulse/*-default-source rw,
+  #/var/lib/pulse/*.tdb rw,
 
   owner @{PROC}/@{pid}/fd/ r,
   owner @{PROC}/@{pid}/maps r,
@@ -115,7 +116,9 @@
   owner /tmp/.esd-@{pid}*/ rw,
   owner /tmp/.esd-@{pid}*/socket rw,
 
-  profile /usr/lib/pulseaudio/pulse/gconf-helper {
+  deny @{HOME}/ rwklm,
+
+  profile /usr/lib/{pulseaudio/,}pulse/gconf-helper {
     #include <abstractions/base>
     #include <abstractions/dbus-session-strict>
 
@@ -123,11 +126,15 @@
 
     /usr/lib/pulseaudio/pulse/gconf-helper mr,
   }
-  profile /usr/lib/pulse/gsettings-helper {
+  profile /usr/lib/{pulseaudio/,}pulse/gsettings-helper {
     #include <abstractions/base>
     #include <abstractions/dbus-session-strict>
+    #include <abstractions/dconf>
 
     signal receive set=term peer=/usr/bin/pulseaudio,
+    deny /proc/*/fd/ r,
+    deny /run/user/*/dconf/user w,
+    /usr/share/glib-2.0/schemas/gschemas.compiled r,
 
     /usr/lib/pulse/gsettings-helper mr,
   }
