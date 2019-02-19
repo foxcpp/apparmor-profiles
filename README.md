@@ -29,6 +29,9 @@ surface. I don't want this.
 **Note 1:** I made some restictions optional, always take a look at matching file
 in `local/` if you think something important (like sound) is broken.
 
+**Note 2:** This repository contains modified default "abstractions"
+(`abstractions/gnome` and `abstractions/kde`), this may break other profiles.
+
 How to use
 --------------
 
