@@ -60,7 +60,7 @@ include statement.
 License
 --------------
 
-Generally I do not care about usage of things I publish on GitHub but I have to
-because of laws. MIT have created pretty good permissive license that allows
-any usage as long as you keep copyright notice.
+Profiles I created from scratch are published under the MIT license.
+Modified profiles from Ubuntu are published under the GNU Public License Version 2.
+Check comments at beggining of each file if you care.
 

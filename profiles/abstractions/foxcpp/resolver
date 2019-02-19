@@ -1,3 +1,8 @@
+# vim:syntax=apparmor:ts=2:sw=2:et
+# Copyright © 2018-2019 Max Mazurov (fox.cpp) <fox.cpp@disroot.org>
+# Published under terms of the MIT license.
+# https://opensource.org/licenses/MIT
+
 /etc/host.conf r,
 /etc/resolv.conf r,
 /etc/nsswitch.conf r,
