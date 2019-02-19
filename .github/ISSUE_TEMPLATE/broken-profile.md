@@ -7,6 +7,16 @@ assignees: foxcpp
 
 ---
 
-### Troubleshooting steps
-- [ ] Boot with `audit=1`, install auditd and do `systemctl start auditd`, run program, attach `/var/audit/audit.log`
-- [ ] Launch program from console, include output
+### Program information
+- Profile name: usr.bin.pulseaudio
+- Program version: X.Y
+- Linux distribution: Ubuntu X.Y
+
+### Broken functionality
+_Describe it here in free form._
+
+### Audit log
+_If you have auditd running, run `grep "program-name" /var/log/audit.log`, include output here. As an alternative, run program using strace: `strace program 2>&1 | grep -P "EPERM|EACCES"`._
+
+###  Program output
+_Run program from terminal, include output here._
