@@ -61,7 +61,7 @@ How to use
 6. Load all AppArmor profiles
 ```
 systemctl enable apparmor
-systemctl start apparmr
+systemctl start apparmor
 ```
 
 Customization
