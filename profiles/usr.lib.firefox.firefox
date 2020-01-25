@@ -1,15 +1,18 @@
 # Firefox AppArmor Profile
 # vim:syntax=apparmor:ts=2:sw=2:et
 
-# Copyright © 2018-2019 Max Mazurov (fox.cpp) <fox.cpp@disroot.org>
+# Copyright © 2018-2020 Max Mazurov (fox.cpp) <fox.cpp@disroot.org>
 # Published under terms of the MIT license.
 # https://opensource.org/licenses/MIT
+#
+# Known to work on Arch Linux with Firefox 72.0.2.
 
 #include <tunables/global>
 
 /usr/lib/firefox{,-esr}/firefox{,-esr} {
   #include <abstractions/base>
   #include <abstractions/gnome>
+  #include <abstractions/freedesktop.org>
   #include <abstractions/ssl_certs>
   #include <abstractions/foxcpp/resolver>
   #include <abstractions/foxcpp/mime>
@@ -18,17 +21,20 @@
   #include <abstractions/foxcpp/wayland>
 
   # Silence audit flood. Firefox works fine without access to these files.
+  # (though it disables GPU acceleration), allow /proc, /sys and /dev/dri stuff
+  # to reenable it)
   deny /{,var/}run/user/*/dconf/user mrwlk,
   deny /{,var/}run/user/*/dconf/ mrwlk,
   deny /etc/dconf/** mrwlk,
+  deny /proc/*/comm mrwlk,
   deny @{HOME}/.config/dconf/user mrwlk,
   deny /dev/ r,
   deny /dev/tty r,
   deny /dev/dri/ r,
-  deny /sys/devices/pci**/{config,vendor,device} r,
+  deny /sys/devices/pci**/{config,vendor,device,drm} r,
   deny /sys/devices/system/cpu/** r,
   deny /sys/devices/system/node/ r,
-  deny /proc/*/{mountinfo,net/route,fd/,task/*/stat,stat} r,
+  deny /proc/*/{mountinfo,net/route,fd/,task/*/stat,stat,statm,smaps} r,
   deny /etc/passwd r,
   deny /usr/bin/lsb_release rx,
   deny /usr/share/mozilla/extensions/*/ r,
@@ -37,24 +43,44 @@
   deny /usr/lib/firefox/pingsender rx,
   deny /dev/dri/card* r,
   deny ptrace,
-  deny /usr/share/fonts/encodings/large/.uuid* rw,
-  deny /usr/share/fonts/util/.uuid* rw,
+  deny /usr/share/fonts/**/.uuid* rw,
+  deny /usr/share/fonts/**/.uuid* rw,
+  deny /var/cache/fontconfig/ w,
+
+  owner @{HOME}/.cache/fontconfig/*.{LCK,NEW} rw,
+  owner @{HOME}/.cache/fontconfig/*cache-* rw,
 
   /usr/share/hunspell/ r,
   /usr/share/hunspell/*.{dic,aff} r,
 
   owner @{HOME}/.mozilla/firefox/** rwk,
+  owner @{HOME}/.mozilla/ rw,
 
   owner @{HOME}/.cache/ r,
   owner @{HOME}/.cache/mozilla/ r,
+  owner @{HOME}/.cache/mozilla/firefox/ rw,
   owner @{HOME}/.cache/mozilla/firefox/** rwk,
 
   audit deny /dev/shm/org.chromium.Chromium.* rw,
   owner /dev/shm/org.chromium.* rwmk,
   owner /dev/shm/org.mozilla.ipc.* rwmk,
   owner /run/user/*/mozilla-shared* rwmk,
+  owner @{HOME}/.cache/fontconfig/*-*.cache-*.TMP-* rw,
 
+  owner /tmp/Temp-*/ rw,
+  owner /tmp/Temp-*/** rw,
+  owner /tmp/cubeb-shm-*-{input,output} rw,
   owner /tmp/mozilla_*/** rw,
+  owner /tmp/mozilla_*/ rw,
+  owner /tmp/mozilla-temp-* rw,
+  owner /tmp/firefox_*/** rwk,
+  owner /tmp/firefox_*/ rw,
+  owner /tmp/firefox*/ rw,
+  owner /tmp/firefox*/** rwk,
+  owner /tmp/tmp-*.xpi rw,
+
+  # f--k, but actually firefox needs exactly this
+  owner /tmp/* rw,
 
   /usr/{lib,share}/firefox/** r,
 
