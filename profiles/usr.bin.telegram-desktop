@@ -1,27 +1,32 @@
-# Firefox AppArmor Profile
+# Telegram Desktop AppArmor Profile
 # vim:syntax=apparmor:ts=2:sw=2:et
-
-# Copyright © 2018-2019 Max Mazurov (fox.cpp) <fox.cpp@disroot.org>
+# Copyright © 2018-2020 Max Mazurov (fox.cpp) <fox.cpp@disroot.org>
 # Published under terms of the MIT license.
 # https://opensource.org/licenses/MIT
 #
+# Known to work on Arch Linux with telegram-desktop 1.9.7.
+
+
 #include <tunables/global>
 #include <tunables/sys>
 
-/usr/bin/{{T,t}elegram,telegram-desktop} {
+/usr/bin/{{T,t}elegram,telegram-desktop}{,-bin} {
   #include <abstractions/base>
   #include <abstractions/fonts>
   #include <abstractions/audio>
   #include <abstractions/foxcpp/pulse>
   # Qt configuration.
   #include <abstractions/kde>
-  # GSettings (required for file selection dialog)
-  #include <abstractions/gnome>
-  #include <abstractions/foxcpp/gnome>
+  #include <abstractions/foxcpp/kde>
   # OpenSSL configuration (???).
   #include <abstractions/openssl>
   #include <abstractions/wayland>
   #include <abstractions/foxcpp/wayland>
+  #include <abstractions/foxcpp/resolver>
+  #include <abstractions/foxcpp/notifications>
+
+  owner /tmp/*-\{87A94AB0-E370-4cde-98D3-ACC110C5967D\} rw,
+  owner /run/user/*/*-\{87A94AB0-E370-4cde-98D3-ACC110C5967D\} rw,
 
   # telegram-desktop tries to touch dconf, we don't want this.
   deny /etc/dconf/** rwmkl,
@@ -33,18 +38,27 @@
 
   # Why tdesktop would want to touch this?
   deny @{sys}/devices/pci**/{device,subsystem_device,subsystem_vendor,uevent,vendor} r,
-  deny @{PROC}/@{pid}/cmdline r,
-  deny /etc/machine-id r,
+  deny @{PROC}/@{pid}/{cmdline,comm} r,
   deny /usr/bin/bash x,
   deny /etc/passwd r,
   deny ptrace,
+  deny /usr/share/egl/egl_external_platform.d r,
 
   # Configuration, profile, etc.
   owner @{HOME}/.local/share r,
   owner @{HOME}/.local/share/TelegramDesktop/ rwk,
   owner @{HOME}/.local/share/TelegramDesktop/** rwkl,
 
-  @{profile_name} rmix,
+  /usr/bin/{{T,t}elegram,telegram-desktop}{,-bin} rmix,
 
-  #include <local/usr.bin.telegram-desktop>
+  # Hack to make shell wrapper execution possible on Arch.
+  /bin/sh Cx,
+  profile /bin/sh {
+    #include <abstractions/base>
+    /usr/bin/telegram-desktop r,
+    /usr/bin/telegram-desktop-bin Px,
+    /bin/sh rmix,
+  }
+
+  #include if exists <local/usr.bin.telegram-desktop>
 }

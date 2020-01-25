@@ -1,9 +1,10 @@
 # vim:syntax=apparmor:ts=2:sw=2:et
-# Copyright © 2018-2019 Max Mazurov (fox.cpp) <fox.cpp@disroot.org>
+# Copyright © 2018-2020 Max Mazurov (fox.cpp) <fox.cpp@disroot.org>
 # Published under terms of the MIT license.
 # https://opensource.org/licenses/MIT
 
 owner @{HOME}/.config/gtk-3.0/settings.ini r,
 owner @{HOME}/.icons/*/index.theme r,
 /usr/share/gtk-3.0/settings.ini r,
+/usr/share/gtk-2.0/gtkrc r,
 

@@ -1,0 +1,7 @@
+#include <abstractions/dbus-session-strict>
+
+dbus send
+     bus=session
+     path=/org/freedesktop/Notifications
+     interface=org.freedesktop.Notifications
+     member={GetServerInformation,Notify},
