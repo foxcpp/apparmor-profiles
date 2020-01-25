@@ -1,0 +1,23 @@
+# vim:syntax=apparmor:ts=2:sw=2:et
+# Copyright © 2018-2020 Max Mazurov (fox.cpp) <fox.cpp@disroot.org>
+# Published under terms of the MIT license.
+# https://opensource.org/licenses/MIT
+
+# GPU itself.
+/dev/dri/ r,
+
+# Used driver.
+/proc/modules r,
+
+# Hardware information
+/sys/bus/pci/devices/ r,
+/sys/bus/pci/devices/** r,
+/sys/devices/pci*/**/{uevent,vendor,device,subsystem_vendor,subsystem_device} rwmkl,
+
+# Proprietary *Stollman.jpeg* driver.
+/usr/bin/nvidia-modprobe rix,
+#include <abstractions/foxcpp/nvidia>
+
+# Wayland
+/usr/share/egl/egl_external_platform.d/ r,
+/usr/share/egl/egl_external_platform.d/* r,
