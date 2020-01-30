@@ -3,7 +3,7 @@
 # Based on usr.bin.pulseaudio from Ubuntu 19.04.
 
 # Copyright © 2008-2014 AppArmor developers <apparmor@lists.ubuntu.com>
-# Copyright © 2019 Max Mazurov (fox.cpp) <fox.cpp@disroot.org>
+# Copyright © 2019-2020 Max Mazurov (fox.cpp) <fox.cpp@disroot.org>
 # Published under the terms of the GPLv2 license. See LICENSE.GPL.
 
 #include <tunables/global>
