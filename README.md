@@ -73,6 +73,13 @@ file in `local/`. For example, to allow Firefox to access Downloads directory,
 you need to edit `local/usr.lib.firefox.firefox` and uncomment mentioned
 include statement.
 
+
+Server profiles
+--------------
+
+I also have a set of profiles I use on my servers to sandbox stuff. It is in
+server_profiles/.
+
 License
 --------------
 

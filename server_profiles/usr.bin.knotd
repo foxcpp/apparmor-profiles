@@ -1,0 +1,38 @@
+# AppArmor profile for Knot DNS server.
+# vim:ts=2:sw=2:et
+
+# Copyright © 2020 Max Mazurov (fox.cpp) <fox.cpp@disroot.org>
+# Published under terms of the MIT license.
+# https://opensource.org/licenses/MIT
+#
+# Known to work on Arch Linux with knot 2.9.2.
+
+#include <tunables/global>
+
+profile /usr/bin/knotd {
+  #include <abstractions/base>
+
+  deny ptrace,
+  capability net_bind_service,
+  network tcp,
+  network unix,
+
+  /var/lib/knot/** rw,
+  /var/lib/knot/**/lock.mdb rwk,
+  /etc/knot/* r,
+  /run/knot/* rw,
+
+  owner /tmp/knot-confdb.*/ rw,
+  owner /tmp/knot-confdb.*/* rw,
+  owner /tmp/knot-confdb.*/lock.mdb rwk,
+
+  /etc/hosts r,
+  /etc/services r,
+
+  # Needed to drop privileges.
+  /etc/host.conf r,
+  /etc/passwd r,
+  /etc/nsswitch.conf r,
+  /etc/group r,
+}
+
