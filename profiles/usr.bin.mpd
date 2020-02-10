@@ -1,0 +1,36 @@
+# mpd AppArmor Profile
+# vim:syntax=apparmor:ts=2:sw=2:et
+# Copyright © 2020 Max Mazurov (fox.cpp) <fox.cpp@disroot.org>
+# Published under terms of the MIT license.
+# https://opensource.org/licenses/MIT
+#
+# Known to work on Arch Linux with 0.21.19.
+# Audio outputs are not allowed by default, uncomment relevant sections in
+# <local/usr.bin.mpd>.
+
+#include <tunables/global>
+
+/usr/bin/mpd {
+    #include <abstractions/base>
+
+    network tcp,
+    network unix,
+
+    # User instance.
+    owner @{HOME}/.mpdconf r,
+    owner @{HOME}/.config/mpd.conf r,
+    owner @{HOME}/.mpd/mpd.conf r,
+    owner @{HOME}/.mpd/** rwk,
+
+    # Another possible configuration using XDG directories.
+    owner @{HOME}/.local/var/lib/mpd/** rwk,
+
+    # System instance.
+    owner /run/mpd/** rw,
+    owner /var/lib/mpd/** rwk,
+
+    # Default config.
+    /etc/mpd.conf r,
+
+    #include if exists <local/usr.bin.mpd>
+}

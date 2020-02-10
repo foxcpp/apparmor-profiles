@@ -1,0 +1,16 @@
+# Allow PulseAudio output.
+#include if exists <abstractions/foxcpp/pulse>
+#include <abstractions/audio>
+
+# Allow ALSA output.
+# #include if exists <abstractions/foxcpp/alsa>
+# #include <abstractions/audio>
+
+# Uncomment to allow reading user music directories.
+# @{HOME}/@{XDG_MUSIC_DIR}/ rw,
+# @{HOME}/@{XDG_MUSIC_DIR}/** rw,
+
+# /var/music/ rw,
+# /var/music/** rw,
+
+# /run/user/1000/mpd.fifo rw,
